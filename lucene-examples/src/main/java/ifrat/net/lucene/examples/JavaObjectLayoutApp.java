@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.openjdk.jol.info.ClassLayout;
 import org.openjdk.jol.vm.VM;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Java Object Layout . 这个可以用来测试下面两个 jvm 参数的行为
  * <pre>
@@ -37,14 +39,24 @@ public class JavaObjectLayoutApp {
     private static int i;
     private static String name;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
         System.err.println(" vm detail ");
         System.out.println(VM.current().details());
         System.err.println(" object detail ");
         System.out.println(ClassLayout.parseInstance(new LongVO(1)).toPrintable());
         System.out.println(ClassLayout.parseInstance(new LongVO(2)).toPrintable());
-        System.out.println(ClassLayout.parseInstance(new IntegerVO(1)).toPrintable());
+
+        TimeUnit.SECONDS.sleep(1);
+        IntegerVO lock = new IntegerVO(1);
+        System.out.println(ClassLayout.parseInstance(lock).toPrintable());
+        synchronized (lock){
+            System.err.println(ClassLayout.parseInstance(lock).toPrintable());
+        }
+        TimeUnit.SECONDS.sleep(1);
+        int systemHashcode = System.identityHashCode(lock);
+        System.out.println(Integer.toHexString(systemHashcode)+"\n\t"+ClassLayout.parseInstance(lock).toPrintable());
+
     }
 
     public static void plus(){
