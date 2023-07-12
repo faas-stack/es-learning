@@ -8,6 +8,8 @@ package ifrat.net.lucene.examples;
  */
 public abstract class AbstractApp {
 
+    protected static final String directory = "E:\\_toava\\_github\\es-learning\\lucene-examples\\indexs\\log";
+
     public static void perform(int count,Runnable runnable){
         long start = System.currentTimeMillis();
         for (int i=0;i<count;i++)

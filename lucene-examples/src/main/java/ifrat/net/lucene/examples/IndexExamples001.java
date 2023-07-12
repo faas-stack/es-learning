@@ -15,7 +15,7 @@ public class IndexExamples001 {
     public static void main(String[] args) throws Exception{
 
         // 1. 第一步，初始化一个文件系统目录
-        FSDirectory directory = FSDirectory.open(Paths.get("E:\\_toava\\_github\\es-learning\\lucene-examples\\indexs\\log"));
+        FSDirectory directory = FSDirectory.open(Paths.get("E:\\_toava\\_github\\es-learning\\lucene-examples\\indexs\\ log"));
         // 2. 初始化一个 IndexWriterConfig, 默认用的是标准的分词器
         IndexWriterConfig writerConfig = new IndexWriterConfig();
         // 默认也是打开或者创建模式

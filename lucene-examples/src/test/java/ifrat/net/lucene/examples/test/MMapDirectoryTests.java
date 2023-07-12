@@ -1,6 +1,7 @@
 package ifrat.net.lucene.examples.test;
 
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.BitUtil;
 import org.junit.Test;
 
 import java.lang.invoke.MethodHandles;
@@ -20,6 +21,13 @@ public class MMapDirectoryTests {
     @Test
     public void testCallerClass(){
 
+    }
+
+    @Test
+    public void test001(){
+
+        System.err.println(BitUtil.zigZagEncode(-1));
+        System.out.println(BitUtil.zigZagEncode(-2));
     }
 
     @Test
