@@ -1,6 +1,5 @@
 package ifrat.net.lucene.examples.test;
 
-import jdk.internal.reflect.Reflection;
 import org.apache.lucene.store.FSDirectory;
 import org.junit.Test;
 
@@ -21,9 +20,6 @@ public class MMapDirectoryTests {
     @Test
     public void testCallerClass(){
 
-        Class clazz = Reflection.getCallerClass();
-
-        System.err.println(clazz.getCanonicalName());
     }
 
     @Test

@@ -11,6 +11,13 @@ package ifrat.net.lucene.examples;
  *
  * 说明: 在提升性能的同时一定会把另外一个维度的可用性或者其他的特点给降低，例如这里你如果要追求高性能的写入，就需要牺牲一部分 index mapping 上的 schema 的可读性。
  *
+ * 测试结果， 只取中一个:
+ * <pre>
+ *  原生字符串类型: cost time: 5
+ *  Float 数据类型: cost time: 96
+ * </pre>
+ *
+ * 分析原因: 从 toString 的方法的实现入手，查看两个不同实现上所用的 jvm 指令集的个数。
  *
  * @Author Administrator
  * @Date 2023/7/10 0010 下午 22:52
@@ -23,9 +30,9 @@ public class ToStringPerformanceApp extends AbstractApp{
         Float value = 2.34F;
         String floatVal = "2.34";
 
-        perform(count,() -> floatVal.toString());
+        perform(count,"原生字符串类型:",() -> floatVal.toString());
 
-        perform(count,() -> {
+        perform(count,"Float 数据类型:",() -> {
             value.toString();
         });
     }

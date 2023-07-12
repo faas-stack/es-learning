@@ -15,4 +15,12 @@ public abstract class AbstractApp {
 
         System.err.println("cost time: "+ (System.currentTimeMillis() - start));
     }
+
+    public static void perform(int count,String tips, Runnable runnable){
+        long start = System.currentTimeMillis();
+        for (int i=0;i<count;i++)
+            runnable.run();
+
+        System.err.println(tips+" cost time: "+ (System.currentTimeMillis() - start));
+    }
 }
