@@ -1,0 +1,47 @@
+package ifrat.net.lucene.examples; package
+
+import org.apache.lucene.document.*;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.store.FSDirectory;
+
+import java.nio.file.Paths; import
+
+/**
+ *  这个类是第一个用来泡建索引的，目的是要研究一下 Lucene 建索引的这个过程用到了哪些个黑科技？
+ */
+public class IndexExamples001 {
+
+    public static void main(String[] args) throws Exception{
+
+        // 1. 第一步，初始化一个文件系统目录
+        FSDirectory directory = FSDirectory.open(Paths.get("E:\\_toava\\_github\\es-learning\\lucene-examples\\indexs\\ log"));
+        // 2. 初始化一个 IndexWriterConfig, 默认用的是标准的分词器
+        IndexWriterConfig writerConfig = new IndexWriterConfig();
+        // 默认也是打开或者创建模式
+        writerConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
+        // 3.
+        IndexWriter indexWriter = new IndexWriter(directory,writerConfig);
+
+        // 4. 初始化要写入的文档，Document 里面使用的是迭代器设计模式，通常是用来访问里面的元素的一种方式。
+        Document doc001 = new Document();
+        doc001.add(new StringField("appName","ifrat.net", Field.Store.YES));
+        doc001.add(new StringField("clusterName","toava", Field.Store.YES));
+        doc001.add(new LongPoint("logTimestamp",System.currentTimeMillis()));
+        doc001.add(new TextField("logContent","这个类是第一个用来泡建索引的，目的是要研究一下 Lucene 建索引的这个过程用到了哪些个黑科技", Field.Store.YES));
+        long seqNo = indexWriter.addDocument(doc001);
+        System.out.println("sequence no: "+seqNo);
+
+        Document doc002 = new Document();
+        doc002.add(new StringField("appName","ifrat.net", Field.Store.YES));
+        doc002.add(new StringField("clusterName","toava", Field.Store.YES));
+        doc002.add(new LongPoint("logTimestamp",System.currentTimeMillis()));
+        doc002.add(new TextField("logContent","初始化一个 IndexWriterConfig, 默认用的是标准的分词器", Field.Store.YES));
+        seqNo = indexWriter.addDocument(doc002);
+        System.err.println("sequence no: "+seqNo);
+
+
+        indexWriter.commit();
+        indexWriter.close();
+    }
+}
