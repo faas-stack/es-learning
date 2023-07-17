@@ -1,6 +1,5 @@
 package ifrat.net.lucene.examples;
 
-import java.lang.management.ManagementFactory;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;

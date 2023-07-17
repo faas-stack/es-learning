@@ -1,5 +1,11 @@
 package ifrat.net.lucene.examples;
 
+import org.apache.lucene.analysis.standard.StandardTokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.TermFrequencyAttribute;
+
+import java.io.InputStream;
+
 /**
  * TODO
  *
@@ -24,5 +30,21 @@ public abstract class AbstractApp {
             runnable.run();
 
         System.err.println(tips+" cost time: "+ (System.currentTimeMillis() - start));
+    }
+
+    public static InputStream getInputStreamWithClassLoader(String file){
+
+        return AbstractApp.class.getClassLoader().getResourceAsStream(file);
+    }
+
+    public static String getTerm(StandardTokenizer tokenizer){
+        CharTermAttribute charTermAttribute = tokenizer.getAttribute(CharTermAttribute.class);
+        TermFrequencyAttribute termFrequencyAttribute = tokenizer.getAttribute(TermFrequencyAttribute.class);
+
+        char[] src = charTermAttribute.buffer();
+        char[] dest = new char[charTermAttribute.length()];
+        System.arraycopy(src,0,dest,0,charTermAttribute.length());
+
+        return new String(dest);
     }
 }

@@ -3,25 +3,51 @@ package ifrat.net.lucene.examples;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.lang.reflect.Method;
 
-public class MethodTypeApp01 {
+public class MethodTypeApp01 extends AbstractApp{
 
     static class ClassA{
 
         public void println(String info){
-            System.out.println("Method Handle: "+info);
+            info.toCharArray();
         }
     }
 
     public static void main(String[] args) throws Throwable{
 
-        Object classA = new ClassA();
-        Object out = System.out;
+        final Object classA = new ClassA();
+        final Object out = System.out;
 
         //  invokeExact 指令用于调用静态方法或特定类型的实例方法。
-        getPrintlnMH(classA).invokeExact("Hello Word");
-        getPrintlnMH(out).invokeExact("Hello Word");
+        MethodHandle classAMethod = getPrintlnMH(classA);
+        MethodHandle systemOut = getPrintlnMH(out);
 
+        Method method = classA.getClass().getMethod("println", String.class);
+
+        systemOut.invokeExact("Hello Word");
+        classAMethod.invokeExact("Hello Word");
+
+        method.invoke(classA,"Reflect Hello Word");
+
+        int count = 1000000;
+
+        final String message = "Hello Word Hello Word";
+        perform(count,"Invoke Exact: ",() ->{
+            try {
+                classAMethod.invokeExact(message);
+            }catch (Throwable throwable){
+                //
+            }
+        });
+
+        perform(count,"Reflect: ",() ->{
+            try {
+                method.invoke(classA,message);
+            }catch (Throwable throwable){
+                //
+            }
+        });
     }
 
     /**
